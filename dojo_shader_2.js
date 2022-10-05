@@ -1,9 +1,10 @@
 let camera, scene, renderer;
 let mesh;
 
-const cubeUniforms = {
-    iTime: { value: 0 },
-    ground: { type: "t", value: new THREE.TextureLoader().load( "./textures/earth.jpg" ) }
+const earthUniforms = {
+    time: { value: 0 },
+    ground: { type: "t", value: new THREE.TextureLoader().load( "./textures/earth.jpg" ) },
+    mask: { type: "t", value: new THREE.TextureLoader().load( "./textures/mask.png" ) }    
 };
 
 function init() {
@@ -17,7 +18,7 @@ function init() {
     const cubeMaterial = new THREE.ShaderMaterial({
         fragmentShader : earth_fragmentShader,
         vertexShader : earth_vertexShader,        
-        uniforms : cubeUniforms,
+        uniforms : earthUniforms,
         glslVersion: THREE.GLSL3   
     });
 
@@ -41,7 +42,7 @@ function animate(millis) {
 
     let time = millis * 0.001;
 
-    cubeUniforms.iTime.value = time;
+    earthUniforms.time.value = time;
 
     requestAnimationFrame(animate);
 
