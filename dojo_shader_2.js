@@ -2,10 +2,8 @@ let camera, scene, renderer;
 let mesh;
 
 const earthUniforms = {
-    time: { value: 0 },
-    ground: { type: "t", value: new THREE.TextureLoader().load( "./textures/earth.jpg" ) },
-    mask: { type: "t", value: new THREE.TextureLoader().load( "./textures/mask.png" ) }    
-};
+    time: { value: 0 }
+ };
 
 function init() {
 
