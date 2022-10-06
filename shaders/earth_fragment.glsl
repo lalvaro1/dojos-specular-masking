@@ -7,6 +7,7 @@ varying vec3 v_position;
 
 uniform float time;
 uniform sampler2D ground;
+uniform sampler2D mask;
 
 
 void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
@@ -15,13 +16,13 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord ) {
     float ambient = 0.1;
     float diffuse = dot(-light, v_normal);
 
-    fragColor.xyz = texture(ground, v_UV).rgb * (ambient + diffuse);
+    vec3 refl = reflect(light, v_normal);
+
+    float mask = texture(mask, v_UV).r;
+    float specular = pow(max(dot(refl, normalize(cameraPosition-v_position)), 0.), 20.) * 0.5 * mask;
+
+    fragColor.xyz = texture(ground, v_UV).rgb * (ambient + diffuse) + specular;
     fragColor.a = 1.0;
-
-    vec3 refl = reflect(normalize(v_position - cameraPosition), v_normal);
-   
-    float hilight = pow(clamp(dot(refl, v_normal), 0., 1.), 10.);
-
 }
 
 void main() {
